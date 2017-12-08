@@ -71,12 +71,22 @@
 <script src="./swagger-ui-standalone-preset.js"> </script>
 <script>
 window.onload = function() {
-  
+
+  function getRedirectUri () {
+    var location = window.location;
+    var pathname = location.pathname
+    pathName = pathname.endsWith("index.html") ? pathname.replace("index.html", "") : pathname
+    var redirectUri = location.protocol + "//" + location.host + pathName
+    redirectUri = redirectUri.endsWith("/") ? redirectUri : redirectUri + "/"
+    return redirectUri + 'oauth2-redirect.html'
+  }
+
   // Build a system
   const ui = SwaggerUIBundle({
     url: "http://petstore.swagger.io/v2/swagger.json",
     dom_id: '#swagger-ui',
     deepLinking: true,
+    oauth2RedirectUrl: getRedirectUri(),
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
